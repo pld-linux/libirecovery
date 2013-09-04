@@ -8,7 +8,7 @@ Version:	0.1.1
 Release:	0.1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	https://github.com/libirecovery/libirecovery/archive/master.tar.gz?/%{name}.tgz
+Source0:	https://github.com/libimobiledevice/libirecovery/archive/master.tar.gz?/%{name}.tgz
 # Source0-md5:	c285877601bd5496c194a34959f29754
 URL:		http://www.libirecovery.org/
 BuildRequires:	autoconf >= 2.61
