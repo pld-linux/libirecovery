@@ -14,7 +14,9 @@ URL:		http://www.libirecovery.org/
 BuildRequires:	autoconf >= 2.61
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	libusb-devel
 BuildRequires:	pkgconfig
+BuildRequires:	readline-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
