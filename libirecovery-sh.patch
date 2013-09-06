@@ -1,0 +1,48 @@
+--- libirecovery-0.1.1/configure.ac.orig	2013-05-21 13:22:25.000000000 +0200
++++ libirecovery-0.1.1/configure.ac	2013-09-06 17:41:35.203001334 +0200
+@@ -33,25 +33,24 @@
+ #echo $host_os
+ case "$host_os" in
+ 	darwin*)
+-		ACCFLAGS+="-I\$(top_srcdir)/include -I/usr/local/include -I/opt/local/include"
+-		ACLDFLAGS+="-L/usr/lib -L/usr/local/lib -L/opt/local/lib"
+-		ACLIBS+="-lusb-1.0 -framework CoreFoundation -framework IOKit"
++		ACCFLAGS="$ACCFLAGS -I\$(top_srcdir)/include -I/usr/local/include -I/opt/local/include"
++		ACLDFLAGS="$ACLDFLAGS -L/usr/lib -L/usr/local/lib -L/opt/local/lib"
++		ACLIBS="$ACLIBS -lusb-1.0 -framework CoreFoundation -framework IOKit"
+ 	;;
+ 	linux*)
+-		ACCFLAGS+="-fPIC -O3 -I\$(top_srcdir)/include -I/usr/include -I/usr/local/include"
+-		ACLDFLAGS+="-L/usr/lib -L/usr/local/lib"
+-		ACLIBS+="-lusb-1.0"
++		ACCFLAGS="$ACCFLAGS -I\$(top_srcdir)/include"
++		ACLIBS="$ACLIBS -lusb-1.0"
+ 	;;
+ 	mingw32*)
+-		ACCFLAGS+="-O3 -DWIN32 -I$(top_srcdir)/include -Ic:/mingw/include"
+-		ACLDFLAGS+="-static-libgcc -Lc:/mingw/lib -Lc:/mingw/bin"
+-		ACLIBS+="-lkernel32 -lmsvcrt -lsetupapi"
++		ACCFLAGS="$ACCFLAGS -O3 -DWIN32 -I$(top_srcdir)/include -Ic:/mingw/include"
++		ACLDFLAGS="$ACLDFLAGS -static-libgcc -Lc:/mingw/lib -Lc:/mingw/bin"
++		ACLIBS="$ACLIBS -lkernel32 -lmsvcrt -lsetupapi"
+ 	;;
+ 	cygwin*)
+ 		CC=gcc-3
+-		ACCFLAGS+="-O3 -DWIN32 -mno-cygwin -I$(top_srcdir)/include -I/usr/include"
+-		ACLDFLAGS+="-static-libgcc -L/lib -L/usr/lib -L/bin"
+-		ACLIBS+="-lkernel32 -lmsvcrt -lsetupapi"
++		ACCFLAGS="$ACCFLAGS -O3 -DWIN32 -mno-cygwin -I$(top_srcdir)/include -I/usr/include"
++		ACLDFLAGS="$ACLDFLAGS -static-libgcc -L/lib -L/usr/lib -L/bin"
++		ACLIBS="$ACLIBS -lkernel32 -lmsvcrt -lsetupapi"
+ 	;;
+ 	*)
+ 		
+@@ -82,7 +81,7 @@
+ AC_SUBST(GLOBAL_CFLAGS)
+ 
+ LIBIRECOVERY_CFLAGS=$ACCFLAGS
+-LIBIRECOVERY_CFLAGS+=$GLOBAL_CFLAGS
++LIBIRECOVERY_CFLAGS="$LIBIRECOVERY_CFLAGS $GLOBAL_CFLAGS"
+ LIBIRECOVERY_LDFLAGS=$ACLDFLAGS
+ LIBIRECOVERY_LIBS=$ACLIBS
+ 
