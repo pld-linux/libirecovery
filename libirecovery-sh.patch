@@ -1,48 +1,38 @@
---- libirecovery-0.1.1/configure.ac.orig	2013-05-21 13:22:25.000000000 +0200
-+++ libirecovery-0.1.1/configure.ac	2013-09-06 17:41:35.203001334 +0200
-@@ -33,25 +33,24 @@
- #echo $host_os
- case "$host_os" in
- 	darwin*)
--		ACCFLAGS+="-I\$(top_srcdir)/include -I/usr/local/include -I/opt/local/include"
--		ACLDFLAGS+="-L/usr/lib -L/usr/local/lib -L/opt/local/lib"
--		ACLIBS+="-lusb-1.0 -framework CoreFoundation -framework IOKit"
-+		ACCFLAGS="$ACCFLAGS -I\$(top_srcdir)/include -I/usr/local/include -I/opt/local/include"
-+		ACLDFLAGS="$ACLDFLAGS -L/usr/lib -L/usr/local/lib -L/opt/local/lib"
-+		ACLIBS="$ACLIBS -lusb-1.0 -framework CoreFoundation -framework IOKit"
- 	;;
- 	linux*)
--		ACCFLAGS+="-fPIC -O3 -I\$(top_srcdir)/include -I/usr/include -I/usr/local/include"
--		ACLDFLAGS+="-L/usr/lib -L/usr/local/lib"
--		ACLIBS+="-lusb-1.0"
-+		ACCFLAGS="$ACCFLAGS -I\$(top_srcdir)/include"
-+		ACLIBS="$ACLIBS -lusb-1.0"
+--- libirecovery-1.0.0/configure.ac.orig	2020-09-12 08:24:09.012837498 +0200
++++ libirecovery-1.0.0/configure.ac	2020-09-12 08:30:23.620808073 +0200
+@@ -55,7 +55,7 @@
+ 		AC_MSG_RESULT([${host_os}])
+ 		AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [
+ 			AC_CHECK_HEADER(IOKit/usb/IOUSBLib.h, [
+-				GLOBAL_LDFLAGS+=" -framework IOKit -framework CoreFoundation"
++				GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -framework IOKit -framework CoreFoundation"
+ 				have_iokit=yes
+ 			], [])
+ 		], [])
+@@ -63,14 +63,14 @@
  	;;
  	mingw32*)
--		ACCFLAGS+="-O3 -DWIN32 -I$(top_srcdir)/include -Ic:/mingw/include"
--		ACLDFLAGS+="-static-libgcc -Lc:/mingw/lib -Lc:/mingw/bin"
--		ACLIBS+="-lkernel32 -lmsvcrt -lsetupapi"
-+		ACCFLAGS="$ACCFLAGS -O3 -DWIN32 -I$(top_srcdir)/include -Ic:/mingw/include"
-+		ACLDFLAGS="$ACLDFLAGS -static-libgcc -Lc:/mingw/lib -Lc:/mingw/bin"
-+		ACLIBS="$ACLIBS -lkernel32 -lmsvcrt -lsetupapi"
+ 		AC_MSG_RESULT([${host_os}])
+-		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
++		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
+ 		win32=true
  	;;
  	cygwin*)
+ 		AC_MSG_RESULT([${host_os}])
  		CC=gcc-3
--		ACCFLAGS+="-O3 -DWIN32 -mno-cygwin -I$(top_srcdir)/include -I/usr/include"
--		ACLDFLAGS+="-static-libgcc -L/lib -L/usr/lib -L/bin"
--		ACLIBS+="-lkernel32 -lmsvcrt -lsetupapi"
-+		ACCFLAGS="$ACCFLAGS -O3 -DWIN32 -mno-cygwin -I$(top_srcdir)/include -I/usr/include"
-+		ACLDFLAGS="$ACLDFLAGS -static-libgcc -L/lib -L/usr/lib -L/bin"
-+		ACLIBS="$ACLIBS -lkernel32 -lmsvcrt -lsetupapi"
+-		CFLAGS+=" -mno-cygwin"
+-		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
++		CFLAGS="$CFLAGS -mno-cygwin"
++		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
+ 		win32=true
  	;;
  	*)
- 		
-@@ -82,7 +81,7 @@
- AC_SUBST(GLOBAL_CFLAGS)
+@@ -113,7 +113,7 @@
+ ])
  
- LIBIRECOVERY_CFLAGS=$ACCFLAGS
--LIBIRECOVERY_CFLAGS+=$GLOBAL_CFLAGS
-+LIBIRECOVERY_CFLAGS="$LIBIRECOVERY_CFLAGS $GLOBAL_CFLAGS"
- LIBIRECOVERY_LDFLAGS=$ACLDFLAGS
- LIBIRECOVERY_LIBS=$ACLIBS
+ AS_COMPILER_FLAGS(GLOBAL_CFLAGS, "-Wall -Wextra -Wmissing-declarations -Wredundant-decls -Wshadow -Wpointer-arith -Wwrite-strings -Wswitch-default -Wno-unused-parameter -fvisibility=hidden $PTHREAD_CFLAGS")
+-GLOBAL_LDFLAGS+=" $PTHREAD_LIBS"
++GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS $PTHREAD_LIBS"
+ AC_SUBST(GLOBAL_CFLAGS)
+ AC_SUBST(GLOBAL_LDFLAGS)
  

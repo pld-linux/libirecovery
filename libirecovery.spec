@@ -5,20 +5,22 @@
 Summary:	Library and utility to talk to iBoot/iBSS via USB
 Summary(pl.UTF-8):	Biblioteka i narzędzie do komunikacji z iBoot/iBSS po USB
 Name:		libirecovery
-Version:	0.1.1
-Release:	3
+Version:	1.0.0
+Release:	1
 License:	LGPL v2.1
 Group:		Libraries
-Source0:	https://github.com/libimobiledevice/libirecovery/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	cfc221033ecc98552369b72dca41cf33
+#Source0Download: https://libimobiledevice.org/
+Source0:	https://github.com/libimobiledevice/libirecovery/releases/download/%{version}/%{name}-%{version}.tar.bz2
+# Source0-md5:	ff4aff474e8d58f70b55091519c4015b
 Patch0:		%{name}-sh.patch
 URL:		https://github.com/libimobiledevice/libirecovery
-BuildRequires:	autoconf >= 2.61
+BuildRequires:	autoconf >= 2.64
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRequires:	libusb-devel >= 1.0
+BuildRequires:	libusb-devel >= 1.0.3
 BuildRequires:	pkgconfig
 BuildRequires:	readline-devel
+Requires:	libusb >= 1.0.3
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,7 +38,7 @@ Summary:	Header files for libirecovery library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libirecovery
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	libusb-devel >= 1.0
+Requires:	libusb-devel >= 1.0.3
 
 %description devel
 Header files for libirecovery library.
@@ -60,9 +62,6 @@ Statyczna biblioteka libirecovery.
 %setup -q
 %patch0 -p1
 
-# use system headers
-%{__rm} -r include/libusb-1.0
-
 %build
 %{__libtoolize}
 %{__aclocal} -I m4
@@ -72,15 +71,21 @@ Statyczna biblioteka libirecovery.
 %configure \
 	%{!?with_openssl:--disable-openssl} \
 	%{!?with_static_libs:--disable-static} \
-	--disable-silent-rules
+	--disable-silent-rules \
+	--with-udev \
+	--with-udevrule='OWNER="root", GROUP="usb", MODE="0660"' \
+	--with-udevrulesdir=/lib/udev/rules.d
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libirecovery-1.0.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -90,19 +95,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README TODO
+%doc NEWS README.md
 %attr(755,root,root) %{_bindir}/irecovery
-%attr(755,root,root) %{_libdir}/libirecovery.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libirecovery.so.0
+%attr(755,root,root) %{_libdir}/libirecovery-1.0.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libirecovery-1.0.so.3
+/lib/udev/rules.d/39-libirecovery.rules
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libirecovery.so
+%attr(755,root,root) %{_libdir}/libirecovery-1.0.so
 %{_includedir}/libirecovery.h
-%{_pkgconfigdir}/libirecovery.pc
+%{_pkgconfigdir}/libirecovery-1.0.pc
 
 %if %{with static_libs}
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/libirecovery.a
+%{_libdir}/libirecovery-1.0.a
 %endif
