@@ -1,6 +1,6 @@
---- libirecovery-1.0.0/configure.ac.orig	2020-09-12 08:24:09.012837498 +0200
-+++ libirecovery-1.0.0/configure.ac	2020-09-12 08:30:23.620808073 +0200
-@@ -55,7 +55,7 @@
+--- libirecovery-1.1.0/configure.ac.orig	2023-05-13 04:40:00.000000000 +0200
++++ libirecovery-1.1.0/configure.ac	2023-11-25 21:04:52.660701247 +0100
+@@ -59,21 +59,21 @@ case ${host_os} in
  		AC_MSG_RESULT([${host_os}])
  		AC_CHECK_HEADER(CoreFoundation/CoreFoundation.h, [
  			AC_CHECK_HEADER(IOKit/usb/IOUSBLib.h, [
@@ -9,30 +9,20 @@
  				have_iokit=yes
  			], [])
  		], [])
-@@ -63,14 +63,14 @@
  	;;
  	mingw32*)
  		AC_MSG_RESULT([${host_os}])
--		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
-+		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
+-		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lsetupapi"
++		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lsetupapi"
  		win32=true
  	;;
  	cygwin*)
  		AC_MSG_RESULT([${host_os}])
  		CC=gcc-3
 -		CFLAGS+=" -mno-cygwin"
--		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
+-		GLOBAL_LDFLAGS+=" -static-libgcc -lkernel32 -lsetupapi"
 +		CFLAGS="$CFLAGS -mno-cygwin"
-+		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lmsvcrt -lsetupapi"
++		GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS -static-libgcc -lkernel32 -lsetupapi"
  		win32=true
  	;;
  	*)
-@@ -113,7 +113,7 @@
- ])
- 
- AS_COMPILER_FLAGS(GLOBAL_CFLAGS, "-Wall -Wextra -Wmissing-declarations -Wredundant-decls -Wshadow -Wpointer-arith -Wwrite-strings -Wswitch-default -Wno-unused-parameter -fvisibility=hidden $PTHREAD_CFLAGS")
--GLOBAL_LDFLAGS+=" $PTHREAD_LIBS"
-+GLOBAL_LDFLAGS="$GLOBAL_LDFLAGS $PTHREAD_LIBS"
- AC_SUBST(GLOBAL_CFLAGS)
- AC_SUBST(GLOBAL_LDFLAGS)
- 
