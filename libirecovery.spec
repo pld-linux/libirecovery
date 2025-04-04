@@ -5,13 +5,13 @@
 Summary:	Library and utility to talk to iBoot/iBSS via USB
 Summary(pl.UTF-8):	Biblioteka i narzędzie do komunikacji z iBoot/iBSS po USB
 Name:		libirecovery
-Version:	1.2.0
+Version:	1.2.1
 Release:	1
 License:	LGPL v2.1
 Group:		Libraries
 #Source0Download: https://libimobiledevice.org/
 Source0:	https://github.com/libimobiledevice/libirecovery/releases/download/%{version}/%{name}-%{version}.tar.bz2
-# Source0-md5:	0233f8a4e7434b0685b5e5591f51a784
+# Source0-md5:	d1fd26cc13b0cdaf815420cd27084f62
 Patch0:		%{name}-sh.patch
 URL:		https://github.com/libimobiledevice/libirecovery
 BuildRequires:	autoconf >= 2.68
